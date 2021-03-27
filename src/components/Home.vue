@@ -1,24 +1,26 @@
 <template>
   <div>
-
+    <div style="margin-bottom: 60px">
+      基于W2C-CNN-BiGRU的Webshell在线检测系统
+    </div>
     <el-upload
       class="upload-demo"
       action=""
       multiple
-      drag
       :http-request="handleHttpRequest"
       >
 
-      <i class="el-icon-upload"></i>
-      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      <div class="el-upload__tip" slot="tip" style="color: orangered">只能上传PHP脚本文件</div>
-<!--  01 版本样式    <el-button size="small" type="primary">点击上传</el-button>-->
-<!--      <div slot="tip" class="el-upload__tip" style="color:orangered">只能上传php文件，不能超过10M</div>-->
+<!--      <i class="el-icon-upload"></i>-->
+<!--      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>-->
+<!--      <div class="el-upload__tip" slot="tip" style="color: orangered">只能上传PHP脚本文件</div>-->
+      <el-button size="small" type="primary">点击上传</el-button>
+      <div slot="tip" class="el-upload__tip" style="color:orangered;margin-bottom: 10px">只能上传php文件，不能超过10M</div>
     </el-upload>
 
     <el-table
       :data="tableData"
-      :row-class-name="tableRowClassName"
+      stripe
+      border
       style="width: 100%" >
 
       <el-table-column
@@ -28,12 +30,18 @@
 
       <el-table-column
         prop="detectres"
-        label="检测类别">
+        label="检测结果">
       </el-table-column>
 
       <el-table-column
-        prop="probability"
-        label="分类概率">
+        prop="webshell"
+        label="webshell概率">
+      </el-table-column>
+
+
+      <el-table-column
+        prop="normal"
+        label="正常网页脚本概率">
       </el-table-column>
 
       <el-table-column
@@ -136,9 +144,11 @@
         this.$msgbox({
           title: o.data.phpFileName + '检测结果',
           message: h('p', null, [
-            h('span', null, '分类概率：' + o.data.probability),
+            h('span', null, '预测为Webshell概率：' + o.data.webshell),
             h('br', null),
-            h('span', null, '分类结果：' + o.data.resName),
+            h('span', null, '预测为正常网页脚本概率：' + o.data.normal),
+            h('br', null),
+            h('span', null, '检测结果：' + o.data.resName),
           ]),
           //showCancelButton: true,
           confirmButtonText: '确定',
